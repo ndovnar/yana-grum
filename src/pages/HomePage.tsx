@@ -79,7 +79,7 @@ export function HomePage() {
           <section className="hero" id="o-nas">
             <div className="hero-image">
               <img
-                src="/images/yana-grum-hero.png"
+                src={`${import.meta.env.BASE_URL}images/yana-grum-hero.png`}
                 alt="Czarny buldog francuski w złotym świetle"
                 width="1024"
                 height="1536"

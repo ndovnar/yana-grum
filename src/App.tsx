@@ -10,7 +10,12 @@ function subscribeToLocation(onStoreChange: () => void) {
 }
 
 function getPathname() {
-  return window.location.pathname;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const pathname = window.location.pathname;
+
+  return basePath && pathname.startsWith(basePath)
+    ? pathname.slice(basePath.length) || "/"
+    : pathname;
 }
 
 export default function App() {
@@ -31,7 +36,7 @@ export default function App() {
   return (
     <main className="not-found">
       <h1>Nie znaleziono strony</h1>
-      <a className="gold-button" href="/">
+      <a className="gold-button" href={import.meta.env.BASE_URL}>
         Wróć do strony głównej
       </a>
     </main>

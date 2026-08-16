@@ -99,7 +99,7 @@ export default function AdminPage() {
 
   return (
     <main className="auth-page">
-      <a href="/" className="auth-brand">
+      <a href={import.meta.env.BASE_URL} className="auth-brand">
         <PawPrint aria-hidden="true" /> yana grum
       </a>
       <section className="auth-card" aria-labelledby="auth-title">
@@ -347,10 +347,10 @@ function AdminDashboard({
   return (
     <main className="dashboard">
       <header className="dashboard-head">
-        <Logo href="/" />
+        <Logo href={import.meta.env.BASE_URL} />
         <div>
           {demoMode && <span className="demo-badge">Tryb demonstracyjny</span>}
-          <a href="/" className="outline-button">
+          <a href={import.meta.env.BASE_URL} className="outline-button">
             Zobacz stronę
           </a>
         </div>
