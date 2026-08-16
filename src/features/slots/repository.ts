@@ -8,6 +8,7 @@ import {
   query,
   runTransaction,
   serverTimestamp,
+  updateDoc,
   where,
   writeBatch,
 } from "firebase/firestore";
@@ -95,12 +96,6 @@ export async function createSlot(input: SlotInput, userId: string) {
       updatedAt: serverTimestamp(),
       updatedBy: userId,
     });
-    transaction.set(doc(collection(db, "calendarLogs")), {
-      action: "create",
-      slotId: reference.id,
-      actorId: userId,
-      createdAt: serverTimestamp(),
-    });
   });
 }
 
@@ -109,32 +104,17 @@ export async function setSlotStatus(
   status: SlotStatus,
   userId: string,
 ) {
-  const db = getDb();
-  const batch = writeBatch(db);
-  batch.update(doc(db, "slots", slotId), {
+  await updateDoc(doc(getDb(), "slots", slotId), {
     status,
     updatedAt: serverTimestamp(),
     updatedBy: userId,
   });
-  batch.set(doc(collection(db, "calendarLogs")), {
-    action: "update-status",
-    slotId,
-    actorId: userId,
-    createdAt: serverTimestamp(),
-  });
-  await batch.commit();
 }
 
-export async function deleteSlots(slotIds: string[], userId: string) {
+export async function deleteSlots(slotIds: string[]) {
   const db = getDb();
   const batch = writeBatch(db);
   slotIds.forEach((slotId) => batch.delete(doc(db, "slots", slotId)));
-  batch.set(doc(collection(db, "calendarLogs")), {
-    action: "delete-day",
-    slotIds,
-    actorId: userId,
-    createdAt: serverTimestamp(),
-  });
   await batch.commit();
 }
 
@@ -166,11 +146,5 @@ export async function copySlots(
         updatedBy: userId,
       }),
     );
-    transaction.set(doc(collection(db, "calendarLogs")), {
-      action: "copy-day",
-      slotIds: targets.map(({ reference }) => reference.id),
-      actorId: userId,
-      createdAt: serverTimestamp(),
-    });
   });
 }

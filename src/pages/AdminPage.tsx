@@ -495,7 +495,7 @@ function AdminDashboard({
     }
     void run(async () => {
       const { deleteSlots } = await import("../features/slots/repository");
-      await deleteSlots(slotIds, user!.uid);
+      await deleteSlots(slotIds);
       setSlotToDelete(null);
     });
   };

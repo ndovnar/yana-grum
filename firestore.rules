@@ -28,15 +28,5 @@ service cloud.firestore {
         request.resource.data.createdAt == resource.data.createdAt;
       allow delete: if isAuthenticated();
     }
-
-    match /calendarLogs/{logId} {
-      allow read: if isAuthenticated();
-      allow create: if isAuthenticated() &&
-        request.resource.data.keys().hasOnly(['action', 'slotId', 'slotIds', 'actorId', 'createdAt']) &&
-        request.resource.data.actorId == request.auth.uid &&
-        request.resource.data.action is string &&
-        request.resource.data.createdAt is timestamp;
-      allow update, delete: if false;
-    }
   }
 }

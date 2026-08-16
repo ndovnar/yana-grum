@@ -36,7 +36,7 @@ Store each appointment slot in the `slots` collection:
 }
 ```
 
-The admin dashboard groups slots by date, can copy slots to another date, requires deletion confirmation, and writes an audit record to `calendarLogs` for each modification. Only authenticated accounts can change this data.
+The admin dashboard groups slots by date, can copy slots to another date, and requires deletion confirmation. Only authenticated accounts can change this data.
 
 Existing slot documents created before `dateKey` and `time` were introduced must be migrated before deployment; otherwise they are intentionally excluded from the calendar query.
 
