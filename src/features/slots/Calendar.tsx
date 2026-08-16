@@ -22,7 +22,9 @@ import type { Slot } from "./types";
 
 const WEEKDAYS = ["Pon", "Wt", "Śr", "Czw", "Pt", "Sob", "Nd"];
 const MONTH_COUNT = 4;
-const isLocalDemo = import.meta.env.DEV && !firebaseReady;
+const isDemoMode =
+  import.meta.env.VITE_DEMO_MODE === "true" ||
+  (import.meta.env.DEV && !firebaseReady);
 
 export function Calendar() {
   const [firstMonth, setFirstMonth] = useState(getWarsawMonth);
@@ -32,19 +34,19 @@ export function Calendar() {
     [firstMonth, monthOffset],
   );
   const [slots, setSlots] = useState<Slot[]>(() =>
-    isLocalDemo ? getDemoSlots(month) : [],
+    isDemoMode ? getDemoSlots(month) : [],
   );
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
   const [selectedTime, setSelectedTime] = useState<string | null>(null);
   const [dataState, setDataState] = useState<"loading" | "ready" | "error">(
-    isLocalDemo ? "ready" : "loading",
+    isDemoMode ? "ready" : "loading",
   );
   const days = useMemo(() => getMonthGrid(month), [month]);
 
   useEffect(() => {
     setSelectedDate(null);
     setSelectedTime(null);
-    if (isLocalDemo) {
+    if (isDemoMode) {
       setSlots(getDemoSlots(month));
       setDataState("ready");
       return undefined;
