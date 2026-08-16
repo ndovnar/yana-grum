@@ -2,6 +2,8 @@
 
 Polish, mobile-first grooming salon website built with React, TypeScript, Tailwind CSS and Firebase.
 
+For the rationale behind the product and technical choices, see [Project decisions](docs/DECISIONS.md).
+
 ## Product specification
 
 - Public users see a black-and-gold monthly calendar with available, booked, neutral and past dates.
