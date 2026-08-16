@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null && request.auth.token.admin == true;
+    }
+
+    function hasValidSlotFields() {
+      return request.resource.data.keys().hasOnly([
+        'startsAt', 'dateKey', 'time', 'status', 'createdAt', 'updatedAt', 'updatedBy'
+      ]) &&
+      request.resource.data.startsAt is timestamp &&
+      request.resource.data.dateKey is string &&
+      request.resource.data.dateKey.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+      request.resource.data.time is string &&
+      request.resource.data.time.matches('^([01][0-9]|2[0-3]):[0-5][0-9]$') &&
+      request.resource.data.createdAt is timestamp &&
+      request.resource.data.updatedAt is timestamp &&
+      request.resource.data.updatedBy == request.auth.uid &&
+      (request.resource.data.status == 'available' || request.resource.data.status == 'booked');
+    }
+
+    match /slots/{slotId} {
+      allow read: if true;
+      allow create: if isAdmin() && hasValidSlotFields();
+      allow update: if isAdmin() && hasValidSlotFields() &&
+        request.resource.data.createdAt == resource.data.createdAt;
+      allow delete: if isAdmin();
+    }
+
+    match /calendarLogs/{logId} {
+      allow read: if isAdmin();
+      allow create: if isAdmin() &&
+        request.resource.data.keys().hasOnly(['action', 'slotId', 'slotIds', 'actorId', 'createdAt']) &&
+        request.resource.data.actorId == request.auth.uid &&
+        request.resource.data.action is string &&
+        request.resource.data.createdAt is timestamp;
+      allow update, delete: if false;
+    }
+  }
+}
