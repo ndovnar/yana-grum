@@ -745,6 +745,8 @@ footer {
   background: rgba(185, 129, 33, 0.12);
 }
 .dashboard {
+  width: 100%;
+  max-width: none;
   min-height: 100vh;
   background: #050504;
 }
@@ -764,6 +766,17 @@ footer {
 .dashboard-head .outline-button {
   justify-self: auto;
 }
+.header-logout {
+  padding: 10px 0;
+  color: #c7ac72;
+  border: 0;
+  background: transparent;
+  font-size: 11px;
+  cursor: pointer;
+}
+.header-logout:hover {
+  color: var(--gold-light);
+}
 .demo-badge {
   border: 1px solid var(--line);
   color: var(--gold-light);
@@ -773,7 +786,7 @@ footer {
   letter-spacing: 0.08em;
 }
 .dashboard-content {
-  max-width: 1000px;
+  max-width: 1380px;
   margin: auto;
   padding: 58px 5%;
 }
@@ -786,10 +799,153 @@ footer {
   max-width: 520px;
   line-height: 1.65;
 }
-.dashboard-grid {
-  margin-top: 35px;
+.admin-calendar-card {
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: linear-gradient(145deg, rgba(92, 55, 7, 0.12), transparent 48%);
+}
+.admin-calendar-head {
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
+  grid-template-columns: 46px 1fr 46px;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.admin-calendar-head h2 {
+  margin-top: 5px;
+  color: var(--gold);
+  font-family: "Cormorant Garamond", serif;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.admin-calendar-head button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  color: var(--gold);
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+  cursor: pointer;
+}
+.admin-calendar-head button:hover {
+  border-color: var(--line);
+  background: rgba(198, 146, 50, 0.1);
+}
+.admin-weekdays,
+.admin-month-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}
+.admin-weekdays {
+  padding-bottom: 8px;
+  color: var(--gold-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-align: center;
+  text-transform: uppercase;
+}
+.admin-month-grid {
+  gap: 1px;
+  padding: 1px;
+  background: var(--calendar-border);
+}
+.admin-calendar-day {
+  min-width: 0;
+  min-height: 92px;
+  padding: 9px;
+  color: #dfc47e;
+  border: 0;
+  background: #080704;
+  text-align: left;
+  cursor: pointer;
+}
+.admin-calendar-day > span {
+  display: block;
+  font-size: 17px;
+}
+.admin-calendar-day small {
+  display: grid;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 10px;
+  font-style: normal;
+}
+.admin-calendar-day small b,
+.admin-calendar-day small i {
+  width: max-content;
+  max-width: 100%;
+  padding: 3px 5px;
+  overflow: hidden;
+  border-radius: 3px;
+  font-style: normal;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.admin-calendar-day small b {
+  color: #1a1104;
+  background: var(--gold);
+}
+.admin-calendar-day small i {
+  color: #ccb277;
+  border: 1px solid rgba(202, 151, 43, 0.38);
+}
+.admin-calendar-day:hover:not(:disabled),
+.admin-calendar-day.selected {
+  background: #2d2109;
+  box-shadow: inset 0 0 0 1px var(--gold);
+}
+.admin-calendar-day.selected {
+  color: #f0d88f;
+}
+.admin-calendar-day.outside,
+.admin-calendar-day.past {
+  color: #685f45;
+  background: #060604;
+}
+.admin-calendar-day.past {
+  cursor: not-allowed;
+}
+.admin-calendar-legend {
+  display: flex;
+  justify-content: center;
+  gap: 22px;
+  margin: 14px 0 0;
+  color: #bca573;
+  font-size: 11px;
+}
+.admin-calendar-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.admin-calendar-legend i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  border-radius: 3px;
+}
+.admin-legend-free {
+  background: var(--gold);
+}
+.admin-legend-booked {
+  border: 1px solid rgba(202, 151, 43, 0.6);
+}
+.dashboard-editor {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(300px, 0.75fr);
+  gap: 18px;
+  margin-top: 35px;
+  align-items: start;
+}
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr;
   gap: 18px;
 }
 .admin-card {
@@ -811,32 +967,118 @@ footer {
   grid-template-columns: repeat(2, 1fr);
   gap: 9px;
 }
-.admin-slots label {
+.admin-slot {
+  display: flex;
+  min-width: 0;
+}
+.admin-slot label {
   border: 1px solid rgba(202, 151, 43, 0.4);
   display: flex;
+  min-width: 0;
+  flex: 1;
   align-items: center;
   gap: 9px;
   padding: 10px;
   color: var(--gold-light);
 }
-.admin-slots input {
+.admin-slot input {
   accent-color: var(--gold);
 }
-.admin-slots small {
+.admin-slot small {
   color: #a78d58;
   margin-left: auto;
+}
+.slot-delete {
+  display: grid;
+  width: 42px;
+  flex: none;
+  place-items: center;
+  color: #d59886;
+  border: 1px solid rgba(180, 100, 77, 0.7);
+  border-left: 0;
+  background: transparent;
+  cursor: pointer;
+}
+.slot-delete:hover {
+  color: #fff2e9;
+  background: #a84d3c;
+}
+.slot-delete svg {
+  width: 17px;
 }
 .add-slot {
   display: flex;
   gap: 8px;
 }
-.add-slot input {
+.admin-time-select,
+.admin-date-trigger {
   min-width: 0;
   flex: 1;
-  padding: 10px;
+  width: 100%;
+  min-height: 43px;
   color: var(--gold-light);
   background: #080704;
   border: 1px solid var(--line);
+  border-radius: 5px;
+  font-family: Lato, sans-serif;
+  font-size: 13px;
+}
+.admin-time-select:hover,
+.admin-date-trigger:hover,
+.admin-time-select[aria-expanded="true"],
+.admin-date-trigger[aria-expanded="true"] {
+  border-color: var(--gold);
+  background: #120d03;
+}
+.admin-time-select svg,
+.admin-date-trigger svg {
+  color: var(--gold);
+}
+.admin-date-trigger {
+  justify-content: flex-start;
+  gap: 9px;
+  padding-inline: 12px;
+  text-align: left;
+}
+.admin-date-popover {
+  width: auto;
+  padding: 8px;
+  color: var(--gold-light);
+  border: 1px solid var(--line);
+  background: #0b0905;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+.admin-date-calendar {
+  color: var(--gold-light);
+}
+.admin-date-calendar button {
+  color: var(--gold-light);
+}
+.admin-date-calendar button:hover,
+.admin-date-calendar button[data-selected-single="true"] {
+  color: #1b1204;
+  background: var(--gold);
+}
+.admin-date-calendar [class*="caption"] {
+  color: var(--gold-light);
+}
+.admin-date-calendar [class*="weekday"],
+.admin-date-calendar [class*="outside"],
+.admin-date-calendar [class*="disabled"] {
+  color: #8e7b4c;
+}
+.admin-select-content {
+  color: var(--gold-light);
+  border: 1px solid var(--line);
+  background: #0b0905;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+}
+.admin-select-content [data-slot="select-item"] {
+  color: var(--gold-light);
+}
+.admin-select-content [data-slot="select-item"]:focus {
+  color: #1b1204;
+  background: var(--gold);
 }
 .add-slot .gold-button {
   cursor: pointer;
@@ -948,17 +1190,12 @@ button:disabled {
 .field-label input {
   width: 100%;
 }
-.admin-card input[type="date"],
-.admin-card input[type="time"] {
-  min-height: 43px;
-  border: 1px solid var(--line);
-  border-radius: 5px;
-  background: #080704;
-  color: #f3ddaa;
-  padding: 9px;
-}
 .confirm-dialog {
+  position: fixed;
+  inset: 0;
   width: min(430px, calc(100% - 32px));
+  height: fit-content;
+  margin: auto;
   border: 1px solid var(--line);
   border-radius: 10px;
   padding: 24px;
@@ -984,6 +1221,8 @@ button:disabled {
   margin-top: 22px;
 }
 .danger-button {
+  min-width: 172px;
+  white-space: nowrap;
   border-color: #bd7964;
   background: #a84d3c;
   color: #fff5ea;
@@ -1002,6 +1241,47 @@ button:disabled {
   .dashboard-content {
     padding: 36px 5%;
   }
+  .dashboard-editor {
+    grid-template-columns: 1fr;
+    margin-top: 25px;
+  }
+  .admin-calendar-card {
+    padding: 11px;
+  }
+  .admin-calendar-head {
+    grid-template-columns: 38px 1fr 38px;
+    margin-bottom: 11px;
+  }
+  .admin-calendar-head h2 {
+    font-size: 24px;
+  }
+  .admin-calendar-head button {
+    width: 34px;
+    height: 34px;
+  }
+  .admin-weekdays {
+    font-size: 9px;
+  }
+  .admin-calendar-day {
+    min-height: 67px;
+    padding: 6px;
+  }
+  .admin-calendar-day > span {
+    font-size: 14px;
+  }
+  .admin-calendar-day small {
+    gap: 2px;
+    margin-top: 7px;
+    font-size: 8px;
+  }
+  .admin-calendar-day small b,
+  .admin-calendar-day small i {
+    padding: 2px 3px;
+  }
+  .admin-calendar-legend {
+    gap: 13px;
+    font-size: 10px;
+  }
   .dashboard-grid {
     grid-template-columns: 1fr;
   }
@@ -1010,6 +1290,9 @@ button:disabled {
   }
   .dashboard-head > div {
     margin-left: auto;
+  }
+  .header-logout {
+    font-size: 10px;
   }
   .confirm-dialog {
     overscroll-behavior: contain;

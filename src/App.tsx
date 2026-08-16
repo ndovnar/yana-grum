@@ -6,10 +6,16 @@ const AdminPage = lazy(() => import("./pages/AdminPage"));
 
 function subscribeToLocation(onStoreChange: () => void) {
   window.addEventListener("popstate", onStoreChange);
-  return () => window.removeEventListener("popstate", onStoreChange);
+  window.addEventListener("hashchange", onStoreChange);
+  return () => {
+    window.removeEventListener("popstate", onStoreChange);
+    window.removeEventListener("hashchange", onStoreChange);
+  };
 }
 
 function getPathname() {
+  if (window.location.hash === "#/admin") return "/admin";
+
   const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
   const pathname = window.location.pathname;
 
@@ -25,7 +31,7 @@ export default function App() {
     getPathname,
   );
   if (pathname === "/") return <HomePage />;
-  if (pathname === "/auth")
+  if (pathname === "/admin")
     return (
       <Suspense
         fallback={<main className="route-loading">Ładowanie panelu…</main>}

@@ -7,8 +7,8 @@ Polish, mobile-first grooming salon website built with React, TypeScript, Tailwi
 - Public users see a black-and-gold monthly calendar with available, booked, neutral and past dates.
 - Selecting an available day reveals its times. Selecting a time never creates a booking; it only exposes contact actions and a prefilled WhatsApp message.
 - The public view shows the current month plus the next three months, using the `Europe/Warsaw` time zone.
-- `/auth` is the protected entry point for administrators. Firebase Email/Password Authentication is used for sign-in. New administrators should be invited by the owner; no public sign-up is exposed.
-- Only authenticated users with the `admin: true` custom claim may manage calendar data. Public visitors have read-only access to appointment slots.
+- `/admin` is the protected entry point for administrators. Firebase Email/Password Authentication is used for sign-in. New administrators should be invited by the owner; no public sign-up is exposed.
+- Only authenticated accounts manually created by the owner may manage calendar data. Public visitors have read-only access to appointment slots.
 - Contact information, address, social links and the page copy are temporary placeholders and must be replaced before publication.
 
 ## Local setup
@@ -16,7 +16,7 @@ Polish, mobile-first grooming salon website built with React, TypeScript, Tailwi
 1. Copy `.env.example` to `.env.local`.
 2. Create a Firebase project, enable **Email/Password** authentication and create a Firestore database.
 3. Add the Firebase web app credentials to `.env.local`.
-4. Invite administrators through Firebase Authentication, then assign each approved account the custom claim `{ admin: true }` with the Firebase Admin SDK. Do not enable public sign-up.
+4. Create administrator accounts through Firebase Authentication. Do not enable public sign-up.
 5. Deploy Firestore rules and indexes: `firebase deploy --only firestore`.
 6. Start the app: `npm run dev`.
 
@@ -36,7 +36,7 @@ Store each appointment slot in the `slots` collection:
 }
 ```
 
-The admin dashboard groups slots by date, can copy slots to another date, requires deletion confirmation, and writes an audit record to `calendarLogs` for each modification. Only users with the Firebase custom claim `admin: true` can change this data.
+The admin dashboard groups slots by date, can copy slots to another date, requires deletion confirmation, and writes an audit record to `calendarLogs` for each modification. Only authenticated accounts can change this data.
 
 Existing slot documents created before `dateKey` and `time` were introduced must be migrated before deployment; otherwise they are intentionally excluded from the calendar query.
 

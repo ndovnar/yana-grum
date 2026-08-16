@@ -55,11 +55,10 @@ export function subscribeToMonthSlots(
       where("dateKey", ">=", start),
       where("dateKey", "<", end),
       orderBy("dateKey"),
-      orderBy("time"),
     ),
-    (snapshot) =>
-      onChange(
-        snapshot.docs.map((item) =>
+    (snapshot) => {
+      const slots = snapshot.docs
+        .map((item) =>
           toSlot(
             item.id,
             item.data() as {
@@ -69,8 +68,14 @@ export function subscribeToMonthSlots(
               status: SlotStatus;
             },
           ),
-        ),
-      ),
+        )
+        .sort(
+          (first, second) =>
+            first.dateKey.localeCompare(second.dateKey) ||
+            first.time.localeCompare(second.time),
+        );
+      onChange(slots);
+    },
     (error) => onError(error),
   );
 }

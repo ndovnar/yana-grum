@@ -56,7 +56,7 @@ describe("Firestore slot rules", () => {
     expect(snapshot.data()?.status).toBe("available");
   });
 
-  it("rejects writes from unauthenticated and non-admin users", async () => {
+  it("rejects writes from unauthenticated visitors", async () => {
     await assertFails(
       setDoc(
         doc(
@@ -66,30 +66,16 @@ describe("Firestore slot rules", () => {
         validSlot,
       ),
     );
-    await assertFails(
+  });
+
+  it("allows an authenticated invited user to create a valid slot", async () => {
+    await assertSucceeds(
       setDoc(
         doc(
           testEnvironment.authenticatedContext("staff-1").firestore(),
           "slots/2026-08-22_1500",
         ),
-        {
-          ...validSlot,
-          updatedBy: "staff-1",
-        },
-      ),
-    );
-  });
-
-  it("allows only an admin claim to create a valid slot", async () => {
-    await assertSucceeds(
-      setDoc(
-        doc(
-          testEnvironment
-            .authenticatedContext("admin-1", { admin: true })
-            .firestore(),
-          "slots/2026-08-22_1500",
-        ),
-        { ...validSlot, dateKey: "2026-08-22", updatedBy: "admin-1" },
+        { ...validSlot, dateKey: "2026-08-22", updatedBy: "staff-1" },
       ),
     );
   });
